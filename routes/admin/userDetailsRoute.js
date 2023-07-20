@@ -58,7 +58,7 @@ userDetailsRoute.get("/getallusers", async (req, res) => {
 
 
 
-userDetailsRoute.get("/getallusers", async (req, res) => {
+userDetailsRoute.get("/adminusers", async (req, res) => {
   const { q } = req.query;
  
   try {
