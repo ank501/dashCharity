@@ -6,7 +6,7 @@ const AdminModel = require("../../models/adminModels/adminModel");
 const adminBlackListModel = require("../../models/adminModels/userBlackList");
 
 adminRouter.post("/register", async (req, res) => {
-  const { email, password } = req.body;
+  const {  password } = req.body;
   try {
     const newPass = await bcrypt.hash(password, 10);
     const adminuser = await AdminModel.create({
