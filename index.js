@@ -8,16 +8,20 @@ const userRouter = require("./routes/userRouter");
 const donationRouter = require("./routes/donationRoute");
 const adminRouter = require("./routes/admin/adminRoute");
 const userDetailsRoute = require("./routes/admin/userDetailsRoute");
+const organizationRouter = require("./routes/organizationRoute");
 app.use(express.json());
 app.use(cors());
 app.use('/users', userRouter);
 app.use('/donation', donationRouter);
 app.use('/admin',adminRouter)
 app.use('/admin/userDetails',userDetailsRoute)
+app.use('/organization', organizationRouter);
+
 
 app.get("/", (req, res) => {
   res.send("Welcome to Home Page");
 });
+
 
 app.listen(Port, async () => {
   try {

@@ -13,7 +13,7 @@ donationRouter.get('/', auth, async (req, res) => {
         const pageLimit = +limit || 5;
         const skip = (pageNum - 1) * pageLimit;
 
-        if (q) {
+        if (q && userId) {
             const donations = await DonationModel.find({ name: { $regex: q, $options: 'i' } }).skip(skip).limit(pageLimit);
             return res.status(200).send(donations);
         }
