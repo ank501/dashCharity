@@ -14,7 +14,9 @@ const organizationSchema = new mongoose.Schema({
     },
     website: {
         type: String
-    }
+    },
+    adminUserId : {type : mongoose.Schema.Types.ObjectId, required : true},
+    adminName : {type : String, required : true}
 });
 
 const Organization = mongoose.model('Organization', organizationSchema);
