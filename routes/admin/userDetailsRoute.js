@@ -3,6 +3,7 @@ const UserModel = require("../../models/userModel");
 const UserBlackList = require("../../models/adminModels/userBlackList");
 const DonationModel = require("../../models/donationModel");
 const AdminModel = require("../../models/adminModels/adminModel");
+const Organization = require("../../models/organizationModel");
 const userDetailsRoute = express.Router();
 
 userDetailsRoute.get("/", async (req, res) => {
@@ -93,6 +94,16 @@ userDetailsRoute.delete("/:id", async (req, res) => {
   const id = req.params.id
   try {
    const deleteUser = await UserModel.findByIdAndDelete({_id:id})
+   res.status(200).send({"msg":"User Deleted",deleteUser})
+  } catch (error) {
+    res.status(400).send({ errmsg: error.message });
+  }
+});
+
+userDetailsRoute.delete("/:id", async (req, res) => {
+  const id = req.params.id
+  try {
+   const deleteUser = await Organization.findByIdAndDelete({_id:id})
    res.status(200).send({"msg":"User Deleted",deleteUser})
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
