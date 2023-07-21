@@ -2,6 +2,7 @@ const express = require("express");
 const UserModel = require("../../models/userModel");
 const UserBlackList = require("../../models/adminModels/userBlackList");
 const DonationModel = require("../../models/donationModel");
+const AdminModel = require("../../models/adminModels/adminModel");
 const userDetailsRoute = express.Router();
 
 userDetailsRoute.get("/", async (req, res) => {
@@ -30,20 +31,53 @@ userDetailsRoute.get("/", async (req, res) => {
 });
 
 
-// userDetailsRoute.get('/', async(req, res) => {
-//     const page = req.query.page;
-//     const limit = req.query.limit;
-//     try {
-//         const pageNum = +page || 1;
-//         const pageLimit = +limit || 5;
-//         const skip = (pageNum - 1) * pageLimit;
+userDetailsRoute.get("/getallusers", async (req, res) => {
+  const { q } = req.query;
+  const page = req.query.page;
+  const limit = req.query.limit;
+  try {
+    const pageNum = +page || 1;
+    const pageLimit = +limit || 5;
+    const skip = (pageNum - 1) * pageLimit;
 
-//         const donations = await DonationModel.find().skip(skip).limit(pageLimit);
-//         res.status(200).send(donations);
-//     } catch (error) {
-//         res.status(400).send({ 'msg': error.message });
-//     }
-// })
+    if (q) {
+      const allusers = await UserModel.find({
+        name: { $regex: q, $options: "i" },
+      })
+        .skip(skip)
+        .limit(pageLimit);
+      res.status(200).send(allusers);
+    } else {
+      const allusers = await UserModel.find().skip(skip).limit(pageLimit);
+      res.status(200).send(allusers);
+    }
+  } catch (error) {
+    res.status(400).send({ errmsg: error.message });
+  }
+});
+
+
+
+userDetailsRoute.get("/adminusers", async (req, res) => {
+  const { q } = req.query;
+ 
+  try {
+   
+
+    if (q) {
+      const allusers = await AdminModel.find({
+        name: { $regex: q, $options: "i" },
+      })
+       
+      res.status(200).send(allusers);
+    } else {
+      const allusers = await AdminModel.find()
+      res.status(200).send(allusers);
+    }
+  } catch (error) {
+    res.status(400).send({ errmsg: error.message });
+  }
+});
 
 userDetailsRoute.post("/blockuser", async (req, res) => {
  const {email} = req.body
