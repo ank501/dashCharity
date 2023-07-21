@@ -12,7 +12,7 @@ const organizationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    category : {type : String, required : true},
+    category : {type : String,enum : ['health', 'education', 'food', 'ukrain donation'], required : true},
     website: {
         type: String
     },

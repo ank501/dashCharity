@@ -3,6 +3,7 @@ const UserModel = require("../../models/userModel");
 const UserBlackList = require("../../models/adminModels/userBlackList");
 const DonationModel = require("../../models/donationModel");
 const AdminModel = require("../../models/adminModels/adminModel");
+const Organization = require("../../models/organizationModel");
 const userDetailsRoute = express.Router();
 
 userDetailsRoute.get("/", async (req, res) => {
@@ -11,7 +12,7 @@ userDetailsRoute.get("/", async (req, res) => {
   const limit = req.query.limit;
   try {
     const pageNum = +page || 1;
-    const pageLimit = +limit || 5;
+    const pageLimit = +limit;
     const skip = (pageNum - 1) * pageLimit;
 
     if (q) {
@@ -89,7 +90,7 @@ userDetailsRoute.post("/blockuser", async (req, res) => {
   }
 });
 
-userDetailsRoute.delete("/:id", async (req, res) => {
+userDetailsRoute.delete("/delete/:id", async (req, res) => {
   const id = req.params.id
   try {
    const deleteUser = await UserModel.findByIdAndDelete({_id:id})
@@ -98,6 +99,17 @@ userDetailsRoute.delete("/:id", async (req, res) => {
     res.status(400).send({ errmsg: error.message });
   }
 });
+
+userDetailsRoute.delete("/deleteOrg/:id", async (req, res) => {
+  const id = req.params.id
+  try {
+   const deleteUser = await Organization.findByIdAndDelete({_id:id})
+   res.status(200).send({"msg":"User Deleted",deleteUser})
+  } catch (error) {
+    res.status(400).send({ errmsg: error.message });
+  }
+});
+
 
 
 
