@@ -8,6 +8,15 @@ const BlackListModel = require('../models/blacklistModel');
 const UserBlackList = require('../models/adminModels/userBlackList');
 const userRouter = express.Router();
 
+userRouter.get('/', async(req, res) => {
+    try {
+        const users = await UserModel.find(req.query);
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(400).send({'msg' : error.message});
+    }
+})
+
 userRouter.post('/register', validator, async (req, res) => {
     const { password } = req.body;
     try {
