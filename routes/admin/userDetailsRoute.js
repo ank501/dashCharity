@@ -90,7 +90,7 @@ userDetailsRoute.post("/blockuser", async (req, res) => {
   }
 });
 
-userDetailsRoute.delete("/:id", async (req, res) => {
+userDetailsRoute.delete("/delete/:id", async (req, res) => {
   const id = req.params.id
   try {
    const deleteUser = await UserModel.findByIdAndDelete({_id:id})
@@ -100,7 +100,7 @@ userDetailsRoute.delete("/:id", async (req, res) => {
   }
 });
 
-userDetailsRoute.delete("/:id", async (req, res) => {
+userDetailsRoute.delete("/deleteOrg/:id", async (req, res) => {
   const id = req.params.id
   try {
    const deleteUser = await Organization.findByIdAndDelete({_id:id})
@@ -109,6 +109,7 @@ userDetailsRoute.delete("/:id", async (req, res) => {
     res.status(400).send({ errmsg: error.message });
   }
 });
+
 
 
 
