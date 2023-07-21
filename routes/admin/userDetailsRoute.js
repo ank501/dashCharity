@@ -12,7 +12,7 @@ userDetailsRoute.get("/", async (req, res) => {
   const limit = req.query.limit;
   try {
     const pageNum = +page || 1;
-    const pageLimit = +limit || 5;
+    const pageLimit = +limit || 6;
     const skip = (pageNum - 1) * pageLimit;
 
     if (q) {
