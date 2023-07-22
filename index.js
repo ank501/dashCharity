@@ -38,4 +38,4 @@ app.listen(Port, async () => {
   console.log(`Server is listening on port ${Port}`);
 });
 
-module.exports = instance;
+
