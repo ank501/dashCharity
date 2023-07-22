@@ -14,6 +14,7 @@ const paymentRouter = require("./routes/paymentRoute");
 
 app.use(express.json());
 app.use(cors());
+
 app.use('/users', userRouter);
 app.use('/donation', donationRouter);
 app.use('/admin', adminRouter)

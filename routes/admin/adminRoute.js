@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config()
 const adminRouter = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -20,7 +21,8 @@ adminRouter.post("/register", async (req, res) => {
 });
 
 adminRouter.post("/login", async (req, res) => {
-  const {name, email, password } = req.body;
+  console.log("Login request received:", req.body);
+  const { email, password } = req.body;
   try {
     const adminuser = await AdminModel.findOne({ email });
     if (!adminuser) {
@@ -35,8 +37,8 @@ adminRouter.post("/login", async (req, res) => {
         process.env.secretKey,
         { expiresIn: "1d" }
       );
-      // console.log(name)
-      res.status(200).send({ msg: "Admin LoggedIn Successfully", token ,name:adminuser.name });
+     
+      res.status(200).send({ msg: "Admin LoggedIn Successfully", token , name:adminuser.name });
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
