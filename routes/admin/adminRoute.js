@@ -20,7 +20,7 @@ adminRouter.post("/register", async (req, res) => {
 });
 
 adminRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const {name, email, password } = req.body;
   try {
     const adminuser = await AdminModel.findOne({ email });
     if (!adminuser) {
