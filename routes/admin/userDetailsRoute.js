@@ -4,6 +4,7 @@ const UserBlackList = require("../../models/adminModels/userBlackList");
 const DonationModel = require("../../models/donationModel");
 const AdminModel = require("../../models/adminModels/adminModel");
 const Organization = require("../../models/organizationModel");
+const adminauthMiddleware = require("../../middlewares/adminauthMiddleware");
 const userDetailsRoute = express.Router();
 
 userDetailsRoute.get("/", async (req, res) => {

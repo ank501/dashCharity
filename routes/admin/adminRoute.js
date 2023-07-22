@@ -20,7 +20,7 @@ adminRouter.post("/register", async (req, res) => {
 });
 
 adminRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const {name, email, password } = req.body;
   try {
     const adminuser = await AdminModel.findOne({ email });
     if (!adminuser) {
@@ -35,7 +35,7 @@ adminRouter.post("/login", async (req, res) => {
         process.env.secretKey,
         { expiresIn: "1d" }
       );
-      res.status(200).send({ msg: "Admin LoggedIn Successfully", token  });
+      res.status(200).send({ msg: "Admin LoggedIn Successfully", token ,name });
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
