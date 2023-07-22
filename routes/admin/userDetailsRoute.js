@@ -4,6 +4,7 @@ const UserBlackList = require("../../models/adminModels/userBlackList");
 const DonationModel = require("../../models/donationModel");
 const AdminModel = require("../../models/adminModels/adminModel");
 const Organization = require("../../models/organizationModel");
+const adminauthMiddleware = require("../../middlewares/adminauthMiddleware");
 const userDetailsRoute = express.Router();
 
 userDetailsRoute.get("/", async (req, res) => {
@@ -34,12 +35,10 @@ userDetailsRoute.get("/", async (req, res) => {
 
 userDetailsRoute.get("/getallusers", async (req, res) => {
   const { q } = req.query;
-  const page = req.query.page;
-  const limit = req.query.limit;
+  // const page = req.query.page;
+  // const limit = req.query.limit;
   try {
-    const pageNum = +page || 1;
-    const pageLimit = +limit || 5;
-    const skip = (pageNum - 1) * pageLimit;
+   
 
     if (q) {
       const allusers = await UserModel.find({
@@ -49,7 +48,7 @@ userDetailsRoute.get("/getallusers", async (req, res) => {
         .limit(pageLimit);
       res.status(200).send(allusers);
     } else {
-      const allusers = await UserModel.find().skip(skip).limit(pageLimit);
+      const allusers = await UserModel.find()
       res.status(200).send(allusers);
     }
   } catch (error) {
