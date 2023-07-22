@@ -35,7 +35,8 @@ adminRouter.post("/login", async (req, res) => {
         process.env.secretKey,
         { expiresIn: "1d" }
       );
-      res.status(200).send({ msg: "Admin LoggedIn Successfully", token ,name });
+      // console.log(name)
+      res.status(200).send({ msg: "Admin LoggedIn Successfully", token ,name:adminuser.name });
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
