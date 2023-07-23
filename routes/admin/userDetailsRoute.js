@@ -89,6 +89,27 @@ userDetailsRoute.post("/blockuser", async (req, res) => {
   }
 });
 
+userDetailsRoute.get("/getblockuser", async (req, res) => {
+  const {email} = req.body
+   try {
+    const unblockuser = await UserBlackList.findOne({email})
+    res.status(200).send(unblockuser)
+   } catch (error) {
+     res.status(400).send({ errmsg: error.message });
+   }
+ });
+
+ userDetailsRoute.post("/blockuser/delete/:email", async (req, res) => {
+  const email = req.params.email
+   try {
+    const deleteBlockUser = await UserBlackList.findByIdAndDelete({email})
+   res.status(200).send({"msg":"User Unblocked",deleteBlockUser})
+   } catch (error) {
+     res.status(400).send({ errmsg: error.message });
+   }
+ });
+ 
+
 userDetailsRoute.delete("/delete/:id", async (req, res) => {
   const id = req.params.id
   try {
