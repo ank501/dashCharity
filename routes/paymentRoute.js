@@ -1,6 +1,5 @@
 const express = require('express');
-const PaymentModel = require('../models/paymentModel');
-const {checkout} = require('../middlewares/payment.controller');
+// const paymentController = require("../middlewares/payment.controller");
 const paymentRouter = express.Router();
 
 // paymentRouter.post('/', async(req, res) => {
@@ -14,6 +13,8 @@ const paymentRouter = express.Router();
 //     }
 // })
 
-paymentRouter.route('/checkout', checkout);
+// app.post('/orders', paymentController.orders);
+// app.post('/verify', paymentController.verify);
+
 
 module.exports = paymentRouter;
