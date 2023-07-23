@@ -13,8 +13,8 @@ const paymentRouter = express.Router();
 //     }
 // })
 
-app.post('/orders', paymentController.orders);
-app.post('/verify', paymentController.verify);
+// app.post('/orders', paymentController.orders);
+// app.post('/verify', paymentController.verify);
 
 
 module.exports = paymentRouter;
