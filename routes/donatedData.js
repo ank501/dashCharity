@@ -3,7 +3,7 @@ const auth = require('../middlewares/authMiddleware');
 const DonatedDataModel = require('../models/donatedDataModel');
 const donatedDataRouter = express.Router();
 
-donatedDataRouter.post('/', auth, async(req, res) => {
+donatedDataRouter.get('/', auth, async(req, res) => {
     const userId = req.body.userId;
     try {
         const donatedData = await DonatedDataModel.findOne({userId});
