@@ -22,4 +22,14 @@ donatedDataRouter.post('/addData', auth, async(req, res) => {
     }
 })
 
+donatedDataRouter.patch('/update/:id', auth, async(req, res) => {
+    const id = req.params.id;
+    try {
+        const donatedData = await DonatedDataModel.findByIdAndUpdate({_id : id}, req.body, {new : true});
+        res.status(200).send({'msg' : 'Data updated', donatedData});
+    } catch (error) {
+        res.status(400).send({'msg' : error.message});
+    }
+})
+
 module.exports = donatedDataRouter;
