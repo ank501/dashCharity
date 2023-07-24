@@ -6,21 +6,24 @@ const paymentSchema = new mongoose.Schema({
     ref: 'user',
     required: true
   },
-  donation: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'donatedData',
+  cardName: {
+    type: String,
     required: true
   },
-  amount: {
+  cardNumber: {
     type: Number,
     required: true
   },
-  status: {
+  expiry: {
+    type: String,
+    required: true
+  },
+  cvv: {
     type: String,
     required: true
   }
 });
 
-const PaymentModel = mongoose.model('Payment', paymentSchema);
+const PaymentModel = mongoose.model('payment', paymentSchema);
 
 module.exports = PaymentModel;

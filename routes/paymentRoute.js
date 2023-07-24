@@ -1,20 +1,21 @@
 const express = require('express');
 const paymentController = require("../middlewares/payment.controller");
+const auth = require('../middlewares/authMiddleware');
+const bcrypt = require('bcrypt');
 const paymentRouter = express.Router();
 
-// paymentRouter.post('/', async(req, res) => {
-//     const {user, donation, amount, status} = req.body;
-//     try {
-//         const newDetails = {user, donation, amount, status : 'completed'}
-//         const payment = await PaymentModel.create(newDetails);
-//         res.status(200).send({'msg' : 'Payment Successful', payment});
-//     } catch (error) {
-//         res.status(400).send({'msg' : error.message});
-//     }
-// })
+paymentRouter.post('/pay', auth, async(req, res) => {
+    const {expiry, cvv} = req.body;
+    try {
+        const newExp = await bcrypt.hash(expiry, 10);
+        const newCvv = await bcrypt.hash(cvv, 10);
 
-// app.post('/orders', paymentController.orders);
-// app.post('/verify', paymentController.verify);
+        const payment = await PaymentModel.create({...req.body, expiry : newExp, cvv :newCvv});
+        res.status(200).send({'msg' : 'Payment Successful!', 'msg2' : 'Thank you for contribution🫶', payment});
+    } catch (error) {
+        res.status(400).send({'msg' : error.message});
+    }
+})
 
 
 module.exports = paymentRouter;
