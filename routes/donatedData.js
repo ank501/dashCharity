@@ -4,9 +4,8 @@ const DonatedDataModel = require('../models/donatedDataModel');
 const donatedDataRouter = express.Router();
 
 donatedDataRouter.get('/', auth, async(req, res) => {
-    const userId = req.body.userId;
     try {
-        const donatedData = await DonatedDataModel.findOne({userId});
+        const donatedData = await DonatedDataModel.findOne();
         res.status(200).send(donatedData);
     } catch (error) {
         res.status(400).send({'msg' : error.message});
