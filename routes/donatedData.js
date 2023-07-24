@@ -31,4 +31,14 @@ donatedDataRouter.patch('/update/:id', auth, async(req, res) => {
     }
 })
 
+donatedDataRouter.delete('/delete/:id', auth, async(req, res) => {
+    const id = req.params.id;
+    try {
+        const donatedData = await DonatedDataModel.findByIdAndDelete({userId : id});
+        res.status(200).send({'msg' : 'Data deleted', donatedData});
+    } catch (error) {
+        res.status(400).send({'msg' : error.message});
+    }
+})
+
 module.exports = donatedDataRouter;
