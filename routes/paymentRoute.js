@@ -6,12 +6,13 @@ const PaymentModel = require('../models/paymentModel');
 const paymentRouter = express.Router();
 
 paymentRouter.post('/pay', auth, async(req, res) => {
-    const {expiry, cvv} = req.body;
+    const {expiry, cvv, cardNumber} = req.body;
     try {
         const newExp = await bcrypt.hash(expiry, 10);
         const newCvv = await bcrypt.hash(cvv, 10);
+        const newCard = await bcrypt.hash(cardNumber, 10)
 
-        const payment = await PaymentModel.create({...req.body, expiry : newExp, cvv :newCvv});
+        const payment = await PaymentModel.create({...req.body, cardNumber : newCard, expiry : newExp, cvv :newCvv});
         res.status(200).send({'msg' : 'Payment Successful!', 'msg2' : 'Thank you for contribution🫶', payment});
     } catch (error) {
         res.status(400).send({'msg' : error.message});
