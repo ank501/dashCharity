@@ -8,7 +8,7 @@ const paymentSchema = new mongoose.Schema({
   },
   donation: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'donation',
+    ref: 'donatedData',
     required: true
   },
   amount: {
