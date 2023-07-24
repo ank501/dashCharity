@@ -2,6 +2,7 @@ const express = require('express');
 const paymentController = require("../middlewares/payment.controller");
 const auth = require('../middlewares/authMiddleware');
 const bcrypt = require('bcrypt');
+const PaymentModel = require('../models/paymentModel');
 const paymentRouter = express.Router();
 
 paymentRouter.post('/pay', auth, async(req, res) => {
