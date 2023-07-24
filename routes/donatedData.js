@@ -5,7 +5,7 @@ const donatedDataRouter = express.Router();
 
 donatedDataRouter.get('/', auth, async(req, res) => {
     try {
-        const donatedData = await DonatedDataModel.findOne();
+        const donatedData = await DonatedDataModel.find();
         res.status(200).send(donatedData);
     } catch (error) {
         res.status(400).send({'msg' : error.message});
