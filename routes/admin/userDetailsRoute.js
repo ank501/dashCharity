@@ -92,6 +92,16 @@ userDetailsRoute.post("/blockuser", async (req, res) => {
   }
 });
 
+userDetailsRoute.delete("/unblockuser/:id", async (req, res) => {
+  const {id} = req.params.id
+   try {
+    const unblockuser = await UserBlackList.findByIdAndDelete({_id:id})
+    res.status(200).send({"msg":"User is unBlocked",unblockuser})
+   } catch (error) {
+     res.status(400).send({ errmsg: error.message });
+   }
+ });
+
 userDetailsRoute.get("/getblockuser", async (req, res) => {
   const {email} = req.body
    try {
