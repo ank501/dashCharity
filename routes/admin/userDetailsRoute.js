@@ -83,9 +83,9 @@ userDetailsRoute.get("/adminusers", async (req, res) => {
 });
 
 userDetailsRoute.post("/blockuser", async (req, res) => {
- const {email} = req.body
+
   try {
-   const blockuser = await UserBlackList.create({email})
+   const blockuser = await UserBlackList.create(req.body)
    res.status(200).send({"msg":"User is Blocked",blockuser})
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
