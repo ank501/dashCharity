@@ -16,16 +16,18 @@ userDetailsRoute.get("/", async (req, res) => {
     const pageLimit = +limit;
     const skip = (pageNum - 1) * pageLimit;
 
+    const totalUsers = await DonationModel.find()
+ 
     if (q) {
       const allusers = await DonationModel.find({
         name: { $regex: q, $options: "i" },
       })
         .skip(skip)
         .limit(pageLimit);
-      res.status(200).send({...allusers,totalUsers:allusers.length});
+      res.status(200).send({...allusers,totalUsers:totalUsers.length});
     } else {
       const allusers = await DonationModel.find().skip(skip).limit(pageLimit);
-      res.status(200).send(allusers);
+      res.status(200).send({...allusers,totalUsers:totalUsers.length});
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
