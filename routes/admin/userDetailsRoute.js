@@ -17,6 +17,7 @@ userDetailsRoute.get("/", async (req, res) => {
     const skip = (pageNum - 1) * pageLimit;
 
     const totalUsers = await DonationModel.find()
+    
  
     if (q) {
       const allusers = await DonationModel.find({
@@ -24,10 +25,10 @@ userDetailsRoute.get("/", async (req, res) => {
       })
         .skip(skip)
         .limit(pageLimit);
-      res.status(200).send({...allusers,totalUsers:totalUsers.length});
+      res.status(200).send({...allusers,totalUsers:totalUsers.length,totalUsersData:totalUsers});
     } else {
       const allusers = await DonationModel.find().skip(skip).limit(pageLimit);
-      res.status(200).send({data:allusers,totalUsers:totalUsers.length});
+      res.status(200).send({data:allusers,totalUsers:totalUsers.length,totalUsersData:totalUsers});
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
