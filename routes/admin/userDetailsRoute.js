@@ -22,7 +22,7 @@ userDetailsRoute.get("/", async (req, res) => {
       })
         .skip(skip)
         .limit(pageLimit);
-      res.status(200).send(allusers);
+      res.status(200).send({...allusers,totalUsers:allusers.length});
     } else {
       const allusers = await DonationModel.find().skip(skip).limit(pageLimit);
       res.status(200).send(allusers);
