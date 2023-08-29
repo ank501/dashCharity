@@ -16,16 +16,19 @@ userDetailsRoute.get("/", async (req, res) => {
     const pageLimit = +limit;
     const skip = (pageNum - 1) * pageLimit;
 
+    const totalUsers = await DonationModel.find()
+    
+ 
     if (q) {
       const allusers = await DonationModel.find({
         name: { $regex: q, $options: "i" },
       })
         .skip(skip)
         .limit(pageLimit);
-      res.status(200).send(allusers);
+      res.status(200).send({...allusers,totalUsers:totalUsers.length,totalUsersData:totalUsers});
     } else {
       const allusers = await DonationModel.find().skip(skip).limit(pageLimit);
-      res.status(200).send(allusers);
+      res.status(200).send({data:allusers,totalUsers:totalUsers.length,totalUsersData:totalUsers});
     }
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
@@ -80,14 +83,36 @@ userDetailsRoute.get("/adminusers", async (req, res) => {
 });
 
 userDetailsRoute.post("/blockuser", async (req, res) => {
- const {email} = req.body
+  
   try {
+    const {email} = req.body
+    await UserModel.findOneAndUpdate({ email }, { isBlocked: true });
+    
    const blockuser = await UserBlackList.create({email})
    res.status(200).send({"msg":"User is Blocked",blockuser})
   } catch (error) {
     res.status(400).send({ errmsg: error.message });
   }
 });
+
+userDetailsRoute.delete("/unblockuser/:id", async (req, res) => {
+  const {id} = req.params
+   try {
+    const userBlackListEntry = await UserBlackList.findById(id);
+    if (!userBlackListEntry) {
+      return res.status(404).send({ msg: "User not found in block list" });
+    }
+
+    const { email } = userBlackListEntry;
+
+    await UserModel.findOneAndUpdate({ email }, { isBlocked: false });
+
+    const unblockuser = await UserBlackList.findByIdAndDelete(id)
+    res.status(200).send({"msg":"User is unBlocked",unblockuser})
+   } catch (error) {
+     res.status(400).send({ errmsg: error.message });
+   }
+ });
 
 userDetailsRoute.get("/getblockuser", async (req, res) => {
   const {email} = req.body
