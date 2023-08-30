@@ -17,7 +17,7 @@ paymentRouter.post('/orders', auth, async(req, res) => {
 
         const options = {
             amount : req.body.amount*100,
-            currency : "INR",
+            currency : "USD",
             receipt : crypto.randomBytes(10).toString("hex")
         }
 
