@@ -40,7 +40,7 @@ paymentRouter.post('/verify', async(req, res) => {
     try {
         const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
         const sign = `${razorpay_order_id} | ${razorpay_payment_id}`;
-        const userSign = crypto.createHmac('Bonjo345', process.env.razorPaySecret).update(sign.toString()).digest('hex');
+        const userSign = crypto.createHmac('sha256', process.env.razorPaySecret).update(sign.toString()).digest('hex');
 
         if(razorpay_signature === userSign){
             res.status(200).send({msg : 'Payment Successful'});
