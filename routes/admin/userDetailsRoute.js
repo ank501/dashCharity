@@ -6,6 +6,7 @@ const AdminModel = require("../../models/adminModels/adminModel");
 const Organization = require("../../models/organizationModel");
 const adminauthMiddleware = require("../../middlewares/adminauthMiddleware");
 const userDetailsRoute = express.Router();
+const mongoose = require("mongoose")
 
 userDetailsRoute.get("/", async (req, res) => {
   const { q } = req.query;
@@ -85,29 +86,38 @@ userDetailsRoute.get("/adminusers", async (req, res) => {
 userDetailsRoute.post("/blockuser", async (req, res) => {
   
   try {
+
     const {email} = req.body
-    await UserModel.findOneAndUpdate({ email }, { isBlocked: true });
+    const userBlackListEntry = await UserBlackList.findOne({email});
+    if (userBlackListEntry) {
+      return res.status(404).send({ msg: "User is already blocked!" });
+    }
+    // if (!email) {
+    //   return res.status(400).send({ errmsg: 'Email is required.' });
+    // }
+    // await UserModel.findOneAndUpdate({ email }, { isBlocked: true });
     
-   const blockuser = await UserBlackList.create({email})
+   const blockuser = await UserBlackList.create(req.body)
    res.status(200).send({"msg":"User is Blocked",blockuser})
   } catch (error) {
-    res.status(400).send({ errmsg: error.message });
+    res.status(400).send({ "errmsg": error.message });
   }
 });
 
-userDetailsRoute.delete("/unblockuser/:id", async (req, res) => {
-  const {id} = req.params
+userDetailsRoute.delete("/unblockuser/:email", async (req, res) => {
+  const {email} = req.params
    try {
-    const userBlackListEntry = await UserBlackList.findById(id);
+   
+    const userBlackListEntry = await UserBlackList.findOne({email});
     if (!userBlackListEntry) {
       return res.status(404).send({ msg: "User not found in block list" });
     }
 
-    const { email } = userBlackListEntry;
+    // const { email } = userBlackListEntry;
 
-    await UserModel.findOneAndUpdate({ email }, { isBlocked: false });
+    // await UserModel.findOneAndUpdate({ email }, { isBlocked: false });
 
-    const unblockuser = await UserBlackList.findByIdAndDelete(id)
+    const unblockuser = await UserBlackList.findOneAndDelete({email})
     res.status(200).send({"msg":"User is unBlocked",unblockuser})
    } catch (error) {
      res.status(400).send({ errmsg: error.message });
