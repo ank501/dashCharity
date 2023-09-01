@@ -6,6 +6,7 @@ const AdminModel = require("../../models/adminModels/adminModel");
 const Organization = require("../../models/organizationModel");
 const adminauthMiddleware = require("../../middlewares/adminauthMiddleware");
 const userDetailsRoute = express.Router();
+const mongoose = require("mongoose")
 
 userDetailsRoute.get("/", async (req, res) => {
   const { q } = req.query;
@@ -86,18 +87,24 @@ userDetailsRoute.post("/blockuser", async (req, res) => {
   
   try {
     const {email} = req.body
+    if (!email) {
+      return res.status(400).send({ errmsg: 'Email is required.' });
+    }
     await UserModel.findOneAndUpdate({ email }, { isBlocked: true });
     
    const blockuser = await UserBlackList.create({email})
    res.status(200).send({"msg":"User is Blocked",blockuser})
   } catch (error) {
-    res.status(400).send({ errmsg: error.message });
+    res.status(400).send({ "errmsg": error.message });
   }
 });
 
 userDetailsRoute.delete("/unblockuser/:id", async (req, res) => {
   const {id} = req.params
    try {
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).send({ errmsg: 'Invalid ID format.' });
+    }
     const userBlackListEntry = await UserBlackList.findById(id);
     if (!userBlackListEntry) {
       return res.status(404).send({ msg: "User not found in block list" });
