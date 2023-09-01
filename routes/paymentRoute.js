@@ -1,7 +1,5 @@
 const express = require('express');
 const auth = require('../middlewares/authMiddleware');
-const bcrypt = require('bcrypt');
-const PaymentModel = require('../models/paymentModel');
 const Razorpay = require('razorpay');
 const paymentRouter = express.Router();
 const crypto = require('crypto');
@@ -54,19 +52,3 @@ paymentRouter.post('/verify', async (req, res) => {
 
 module.exports = paymentRouter;
 
-
-
-
-
-// paymentRouter.post('/pay', auth, async(req, res) => {
-//     const {expiry, cvv, cardNumber} = req.body;
-//     try {
-//         const newExp = await bcrypt.hash(expiry, 10);
-//         const newCvv = await bcrypt.hash(cvv, 10);
-
-//         const payment = await PaymentModel.create({...req.body, expiry : newExp, cvv :newCvv});
-//         res.status(200).send({'msg' : 'Payment Successful!', 'msg2' : 'Thank you for contribution🫶', payment});
-//     } catch (error) {
-//         res.status(400).send({'msg' : error.message});
-//     }
-// })
