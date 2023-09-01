@@ -86,7 +86,12 @@ userDetailsRoute.get("/adminusers", async (req, res) => {
 userDetailsRoute.post("/blockuser", async (req, res) => {
   
   try {
-    // const {email} = req.body
+
+    const {email} = req.body
+    const userBlackListEntry = await UserBlackList.findOne({email});
+    if (userBlackListEntry) {
+      return res.status(404).send({ msg: "User is already blocked!" });
+    }
     // if (!email) {
     //   return res.status(400).send({ errmsg: 'Email is required.' });
     // }
